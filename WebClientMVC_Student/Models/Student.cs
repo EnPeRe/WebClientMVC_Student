@@ -18,6 +18,7 @@ namespace WebClientMVC_Student.Models
         #region constructors
         public Student()
         {
+
         }
 
         public Student(int id, string name, int edad, string datebirth)
@@ -34,7 +35,6 @@ namespace WebClientMVC_Student.Models
             this.Edad = edad;
             this.FechaNacimiento = Convert.ToDateTime(datebirth);
         }
-
 
         public Student(int id, string name, string fechanacimiento, int edad, string st_guid)
         {
