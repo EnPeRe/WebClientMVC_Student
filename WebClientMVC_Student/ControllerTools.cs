@@ -6,6 +6,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Mvc;
+using System.Web.Services;
 using WebClientMVC_Student.Models;
 
 namespace WebClientMVC_Student
@@ -31,7 +33,7 @@ namespace WebClientMVC_Student
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 //Sending request to find web api REST service resource GetAllEmployees using HttpClient  
-                HttpResponseMessage Res = await client.GetAsync("api/Student/GetAll");
+                var Res = await client.GetAsync("api/Student/GetAll");
 
                 //Checking the response is successful or not which is sent using HttpClient  
                 if (Res.IsSuccessStatusCode)
@@ -55,16 +57,12 @@ namespace WebClientMVC_Student
                 var deleteTask = client.DeleteAsync("api/Student/DeleteById?id=" + id);
                 deleteTask.Wait();
                 var result = deleteTask.Result;
-                if (result.IsSuccessStatusCode)
+                if (!result.IsSuccessStatusCode)
                 {
-
-                    /*return RedirectToAction("Index")*/;
+                    //logear el notSuccssesful
                 }
             }
-            return /*RedirectToAction("Index")*/;
         }
-
-
 
         public static void Put()
         {
@@ -76,7 +74,23 @@ namespace WebClientMVC_Student
 
             }
 
-                return;
+        }
+
+        public static async Task Post(Student student)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Baseurl);
+
+                var myContent = JsonConvert.SerializeObject(student);
+                var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
+                var byteContent = new ByteArrayContent(buffer);
+                byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                var response = await client.PostAsync("api/Student/Add", byteContent);
+
+                response.EnsureSuccessStatusCode();
+            }
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Web.Routing;
 
 namespace WebClientMVC_Student
 {
-    public class RouteConfig
+    public static class RouteConfig
     {
         public static void RegisterRoutes(RouteCollection routes)
         {

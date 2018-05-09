@@ -49,5 +49,20 @@ namespace WebClientMVC_Student.Controllers
 
             return Redirect("http://localhost:51010/Home/StudentList");
         }
+
+        public async Task<ActionResult> Create()
+        {
+            return View();
+        }
+
+        [HttpPost()]
+        public async Task<ActionResult> Create(Student student)
+        {
+            ViewBag.Message = "Your creation student page.";
+
+            await ControllerTools.Post(student);
+
+            return Redirect("http://localhost:51010/Home/StudentList");
+        }
     }
 }
