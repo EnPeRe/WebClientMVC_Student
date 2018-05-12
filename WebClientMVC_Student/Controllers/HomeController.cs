@@ -47,7 +47,7 @@ namespace WebClientMVC_Student.Controllers
 
             ControllerTools.Delete(id);
 
-            return Redirect("http://localhost:51010/Home/StudentList");
+            return RedirectToAction("StudentList");
         }
 
         public async Task<ActionResult> Create()
@@ -62,7 +62,28 @@ namespace WebClientMVC_Student.Controllers
 
             await ControllerTools.Post(student);
 
-            return Redirect("http://localhost:51010/Home/StudentList");
+            return RedirectToAction("StudentList");
         }
+
+        public async Task<ActionResult> Edit(int id)
+        {
+            return View(await ControllerTools.Get(id));
+        }
+
+        [HttpPost()]
+        public async Task<ActionResult> Edit(Student student)
+        {
+            ViewBag.Message = "Your edit student page.";
+
+            await ControllerTools.Put(student);
+
+            return RedirectToAction("StudentList");
+        }
+
+        public async Task<ActionResult> Details(int id)
+        {
+            return View(await ControllerTools.Get(id));
+        }
+
     }
 }
